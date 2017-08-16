@@ -174,7 +174,7 @@ namespace Module_1
                 // Goto transfer
                 else if (PutTake == "3")
                 {
-                    
+                    Transfer(indUser, ref arrBase);
                 }
                 // Quit
                 else if (PutTake == "4")
@@ -440,6 +440,74 @@ namespace Module_1
                     if (akkTrue == true)
                     {
                         QuitUserMenu(indUser, arrBase, text1);
+                        break;
+                    }
+                    else
+                    {
+                        IncNum();
+                        break;
+                    }
+                }
+                else
+                {
+                    IncNum();
+                }
+            }
+        }
+        // Transfer money
+        static void Transfer(int indUser, ref string[][] arrBase)
+        {
+            string s = "", text = "--- TRANSFER MENU---";
+            bool akkTrue = false;
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(text);
+                PrintUser(arrBase, indUser);
+                Console.Write("Enter number account for take off money:");
+                string akkTake = Console.ReadLine();
+                Console.Write("Enter number account for put money:");
+                string akkPut = Console.ReadLine();
+                Console.Write("Enter sum:");
+                s = Console.ReadLine();
+                bool res = Int32.TryParse(s, out int addSum);
+                if (res)
+                {
+                    for (int i = 2; i < arrBase[indUser].Length; i += 2)
+                    {
+                        if (". Account - " + akkTake + ". Cash - " == arrBase[indUser][i])
+                        {
+                            for (int j = 2; j < arrBase[indUser].Length; j+= 2)
+                            {
+                                if (". Account - " + akkPut + ". Cash - " == arrBase[indUser][j])
+                                {
+                                    int cashOldTake = int.Parse(arrBase[indUser][i + 1]);
+                                    int cashOldPut = int.Parse(arrBase[indUser][j + 1]);
+                                    if ((cashOldTake -= addSum) > 0)
+                                    {
+                                        string cashNewTake = Convert.ToString(cashOldTake);
+                                        arrBase[indUser][i + 1] = cashNewTake;
+                                        cashOldPut += addSum;
+                                        string cashNewPut = Convert.ToString(cashOldPut);
+                                        arrBase[indUser][j + 1] = cashNewPut;
+                                        akkTrue = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Not enough money.");
+                                        Console.WriteLine("Press any key to continue.");
+                                        Console.ReadKey();
+                                        akkTrue = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (akkTrue == true)
+                    {
+                        QuitUserMenu(indUser, arrBase, text);
                         break;
                     }
                     else
