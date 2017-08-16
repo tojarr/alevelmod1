@@ -156,7 +156,8 @@ namespace Module_1
                 Console.WriteLine();
                 Console.WriteLine("1 - Put cash to account.");
                 Console.WriteLine("2 - Take off cash from the account.");
-                Console.WriteLine("3 - Quit to main menu.");
+                Console.WriteLine("3 - Transfer.");
+                Console.WriteLine("4 - Quit to main menu.");
                 Console.WriteLine();
                 Console.Write("Enter:");
                 string PutTake = Console.ReadLine();
@@ -170,8 +171,13 @@ namespace Module_1
                 {
                     TakeOffCash(indUser, ref arrBase);
                 }
-                // Quit
+                // Goto transfer
                 else if (PutTake == "3")
+                {
+                    
+                }
+                // Quit
+                else if (PutTake == "4")
                 {
                     Console.Clear();
                     break;
