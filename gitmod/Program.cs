@@ -15,7 +15,7 @@ namespace Module_1
         static void Main(string[] args)
         {
             string[][] arrBase = new string[0][];
-
+            int countAcc = 100;
             while (true)
             {
                 Console.Clear();
@@ -39,7 +39,7 @@ namespace Module_1
                     else
                     {
                         Console.Clear();
-                        AdminMet(login, ref arrBase);
+                        AdminMet(login, ref arrBase, ref countAcc);
                     }
                 }
                 else if (numlog == "2")
@@ -64,7 +64,7 @@ namespace Module_1
                             else
                             {
                                 Console.Clear();
-                                UserMet(login, ref arrBase);
+                                UserMet(login, ref arrBase, ref countAcc);
                                 logTrue = true;
                                 break;
                             }
@@ -87,11 +87,12 @@ namespace Module_1
             }
         }
         // Methods
-        // Admin methods
-        static void AdminMet(string login, ref string[][] arrBase)
+        // Admin menu
+        static void AdminMet(string login, ref string[][] arrBase, ref int countAcc)
         {
             while (true)
             {
+                string text = "";
                 //Menu admin
                 Console.Clear();
                 Console.WriteLine("--- ADMIN MENU ---");
@@ -101,14 +102,15 @@ namespace Module_1
                 Console.WriteLine("3 - Add new user.");
                 Console.WriteLine("4 - Delete user.");
                 Console.WriteLine("5 - Creat new account.");
-                Console.WriteLine("6 - Quit to main menu.");
+                Console.WriteLine("6 - Delete account.");
+                Console.WriteLine("7 - Quit to main menu.");
                 Console.WriteLine();
                 Console.Write("Enter:");
                 string NumMenu = Console.ReadLine();
                 // List of users
                 if (NumMenu == "1")
                 {
-                    PrintUsers(arrBase);
+                    PrintUsers(arrBase, text);
                 }
                 // Block/Unblock user
                 else if (NumMenu == "2")
@@ -118,7 +120,7 @@ namespace Module_1
                 // Add new user
                 else if (NumMenu == "3")
                 {
-                    AddUser(ref arrBase);
+                    AddUser(ref arrBase, ref countAcc);
                 }
                 // Delete user
                 else if (NumMenu == "4")
@@ -128,10 +130,15 @@ namespace Module_1
                 // Creat new account
                 else if (NumMenu == "5")
                 {
-                    CreatNewAcc(ref arrBase);
+                    CreatNewAcc(ref arrBase, ref countAcc);
+                }
+                //Goto delete account
+                else if (NumMenu == "6")
+                {
+                    DelAcc(ref arrBase);
                 }
                 // Quit
-                else if (NumMenu == "6")
+                else if (NumMenu == "7")
                 {
                     Console.Clear();
                     break;
@@ -144,8 +151,8 @@ namespace Module_1
             }
 
         }
-        // User Method
-        static void UserMet(string login, ref string[][] arrBase)
+        // User menu
+        static void UserMet(string login, ref string[][] arrBase, ref int countAcc)
         {
             while (true)
             {
@@ -185,14 +192,13 @@ namespace Module_1
                 // Goto Begin
                 else
                 {
-                    //IncNum();
+                    IncNum();
                 }
             }
         }
         // Block/Unblock user
         static void BlockUnblock(ref string[][] arrBase)
         {
-
             Console.Clear();
             Console.WriteLine("--- BLOCK/UNBLOCK MENU ---");
             Console.WriteLine();
@@ -233,28 +239,18 @@ namespace Module_1
             }
         }
         // Add users
-        static void AddUser(ref string[][] arrBase)
+        static void AddUser(ref string[][] arrBase, ref int countAcc)
         {
+            string text1 = "--- ADD USER MENU ---", text2 = "";
             Console.Clear();
-            Console.WriteLine("--- ADD USER MENU ---");
+            Console.WriteLine(text1);
             Console.WriteLine();
             Console.Write("Enter name new user:");
-            string login = Console.ReadLine();
-            bool log1 = true;
-            for (int i = 0; i < arrBase.Length; i++)
+            string logUser = Console.ReadLine();
+            int indUser = SearchIndexLogin(arrBase, logUser);
+            if (indUser != -1)
             {
-                if ("Name - " + login + "." == arrBase[i][0])
-                {
-                    log1 = false;
-                    break;
-                }
-            }
-            if (log1 == false)
-            {
-                Console.WriteLine("This name is used.");
-                Console.WriteLine();
-                Console.Write("Press any key to quit main menu.");
-                Console.ReadKey();
+                QuitAdminMenu(indUser, arrBase, text1, text2 = "Name is in use");
             }
             else
             {
@@ -269,19 +265,21 @@ namespace Module_1
                 }
 
                 arrBase1[arrBase1.Length - 1] = new string[4];
-                arrBase1[arrBase1.Length - 1][0] = "Name - " + login + ".";
+                arrBase1[arrBase1.Length - 1][0] = "Name - " + logUser + ".";
                 arrBase1[arrBase1.Length - 1][1] = "Status - Unblocked";
-                arrBase1[arrBase1.Length - 1][2] = ". Account - " + (arrBase1.Length - 1) + (arrBase1[arrBase1.Length - 1].Length - 2) + ". Cash - ";
+                arrBase1[arrBase1.Length - 1][2] = ". Account - " + (Convert.ToString(countAcc)) + ". Cash - ";
                 arrBase1[arrBase1.Length - 1][3] = "0";
                 arrBase = arrBase1;
-                PrintUsers(arrBase);
+                PrintUsers(arrBase, text2);
+                countAcc++;
             }
         }
         // Delete user
         static void DelUser(ref string[][] arrBase)
         {
+            string text1 = "--- DELETE USER MENU ---", text2 = "";
             Console.Clear();
-            Console.WriteLine("--- DELETE USER MENU ---");
+            Console.WriteLine(text1);
             Console.WriteLine();
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
@@ -297,11 +295,7 @@ namespace Module_1
                 string _input = Console.ReadLine();
                 if (_input != "y")
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("User is not deleted");
-                    Console.WriteLine();
-                    Console.WriteLine("Press any key to quit the admin menu.");
-                    Console.ReadKey();
+                    QuitAdminMenu(indUser, arrBase, text1, text2 = "User is not deleted");
                 }
                 else
                 {
@@ -323,15 +317,16 @@ namespace Module_1
                         }
                     }
                     arrBase = arrBase1;
+                    PrintUsers(arrBase, text2 = "User " + logUser + " is deleted");
                 }
             }
-
         }
         // Creat new account
-        static void CreatNewAcc(ref string[][] arrBase)
+        static void CreatNewAcc(ref string[][] arrBase, ref int countAcc)
         {
+            string text1 = "--- CREAT NEW ACCOUNT MENU ---", text2 = "Account is created.";
             Console.Clear();
-            Console.WriteLine("--- CREAT NEW ACCOUNT MENU ---");
+            Console.WriteLine(text1);
             Console.WriteLine();
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
@@ -347,23 +342,85 @@ namespace Module_1
                 {
                     arrBase1[i] = arrBase[indUser][i];
                 }
-                arrBase1[arrBase1.Length - 2] = ". Account - " + (indUser) + (arrBase1.Length - 2) + ". Cash - ";
+                arrBase1[arrBase1.Length - 2] = ". Account - " + (Convert.ToString(countAcc)) + ". Cash - ";
                 arrBase1[arrBase1.Length - 1] = "0";
                 arrBase[indUser] = arrBase1;
+                countAcc++;
+            }
+            QuitAdminMenu(indUser, arrBase, text1, text2);
+        }
+        //Delete account
+        static void DelAcc(ref string[][] arrBase)
+        {
+            bool accTrue = false;
+            string text1 = "--- DELETE ACCOUNT MENU ---", text2 = "";
+            Console.Clear();
+            int indexAcc = 0;
+            Console.WriteLine(text1);
+            Console.WriteLine();
+            Console.Write("Enter name user:");
+            string logUser = Console.ReadLine();
+            int indUser = SearchIndexLogin(arrBase, logUser);
+            if (indUser < 0)
+            {
+                IncNum();
+            }
+            else
+            {
+                PrintUser(arrBase, indUser);
+                Console.Write("Enter number account:");
+                string accNum = Console.ReadLine();
+                for (int i = 2; i < arrBase[indUser].Length; i += 2)
+                {
+                    if (". Account - " + accNum + ". Cash - " == arrBase[indUser][i])
+                    {
+                        indexAcc = i;
+                        accTrue = true;
+                        break;
+                    }
+                }
+                if (accTrue == true)
+                {
+                    int accSum = int.Parse(arrBase[indUser][indexAcc + 1]);
+                    if (accSum <= 10)
+                    {
+                        string[] arrBase1 = new string[arrBase[indUser].Length - 2];
+                        for (int i = 0, k = 0; i < arrBase[indUser].Length; k++, i++)
+                        {
+                            if (i == indexAcc)
+                            {
+                                k--;
+                                i++;
+                                continue;
+                            }
+                            arrBase1[k] = arrBase[indUser][i];
+                        }
+                        arrBase[indUser] = arrBase1;
+                        QuitAdminMenu(indUser, arrBase, text1, text2 = "Account is deleted.");
+                    }
+                    else
+                    {
+                        QuitAdminMenu(indUser, arrBase, text1, text2 = "Account sum is more then 10.");
+                    }
+                }
+                else
+                {
+                    IncNum();
+                }
             }
         }
         // Put cash to account
         static void PutCash(int indUser, ref string[][] arrBase)
         {
             string s = "", text1 = "--- PUT CASH MENU ---";
-            bool akkTrue = false;
+            bool accTrue = false;
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine(text1);
                 PrintUser(arrBase, indUser);
                 Console.Write("Enter number account:");
-                string akkNum = Console.ReadLine();
+                string accNum = Console.ReadLine();
                 Console.Write("Enter sum:");
                 s = Console.ReadLine();
                 bool res = Int32.TryParse(s, out int addSum);
@@ -371,17 +428,17 @@ namespace Module_1
                 {
                     for (int i = 2; i < arrBase[indUser].Length; i += 2)
                     {
-                        if (". Account - " + akkNum + ". Cash - " == arrBase[indUser][i])
+                        if (". Account - " + accNum + ". Cash - " == arrBase[indUser][i])
                         {
                             int cashOld = int.Parse(arrBase[indUser][i + 1]);
                             cashOld += addSum;
                             string cashNew = Convert.ToString(cashOld);
                             arrBase[indUser][i + 1] = cashNew;
-                            akkTrue = true;
+                            accTrue = true;
                             break;
                         }
                     }
-                    if (akkTrue == true)
+                    if (accTrue == true)
                     {
                         QuitUserMenu(indUser, arrBase, text1);
                         break;
@@ -477,7 +534,7 @@ namespace Module_1
                     {
                         if (". Account - " + akkTake + ". Cash - " == arrBase[indUser][i])
                         {
-                            for (int j = 2; j < arrBase[indUser].Length; j+= 2)
+                            for (int j = 2; j < arrBase[indUser].Length; j += 2)
                             {
                                 if (". Account - " + akkPut + ". Cash - " == arrBase[indUser][j])
                                 {
@@ -522,6 +579,19 @@ namespace Module_1
                 }
             }
         }
+        // Quit to admin menu
+        static void QuitAdminMenu(int indUser, string[][] arrBase, string text1, string text2)
+        {
+            Console.Clear();
+            Console.WriteLine(text1);
+            Console.WriteLine();
+            PrintUser(arrBase, indUser);
+            Console.WriteLine();
+            Console.WriteLine(text2);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to quit the admin menu.");
+            Console.ReadKey();
+        }
         // Quit to user menu
         static void QuitUserMenu(int indUser, string[][] arrBase, string text1)
         {
@@ -539,7 +609,7 @@ namespace Module_1
             Console.WriteLine("Press any key.");
             Console.ReadKey();
         }
-        // Search index login
+        // Search index logUser
         static int SearchIndexLogin(string[][] arrBase, string logUser)
         {
             int indUser = 0;
@@ -573,10 +643,12 @@ namespace Module_1
             Console.WriteLine("\n");
         }
         // Print array users
-        static void PrintUsers(string[][] arrBase)
+        static void PrintUsers(string[][] arrBase, string text)
         {
             Console.Clear();
             Console.WriteLine("--- LIST OF USERS ---");
+            Console.WriteLine();
+            Console.WriteLine(text);
             Console.WriteLine();
             for (int i = 0; i < arrBase.Length; i++)
             {
@@ -593,7 +665,4 @@ namespace Module_1
 
         }
     }
-
-
-
 }
