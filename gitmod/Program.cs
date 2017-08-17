@@ -15,6 +15,7 @@ namespace Module_1
         static void Main(string[] args)
         {
             string[][] arrBase = new string[0][];
+            string[] history = new string[0];
             int countAcc = 100;
             while (true)
             {
@@ -39,7 +40,7 @@ namespace Module_1
                     else
                     {
                         Console.Clear();
-                        AdminMet(login, ref arrBase, ref countAcc);
+                        AdminMet(login, ref arrBase, ref history, ref countAcc);
                     }
                 }
                 else if (numlog == "2")
@@ -64,7 +65,7 @@ namespace Module_1
                             else
                             {
                                 Console.Clear();
-                                UserMet(login, ref arrBase, ref countAcc);
+                                UserMet(login, ref arrBase, ref history, ref countAcc);
                                 logTrue = true;
                                 break;
                             }
@@ -88,7 +89,7 @@ namespace Module_1
         }
         // Methods
         // Admin menu
-        static void AdminMet(string login, ref string[][] arrBase, ref int countAcc)
+        static void AdminMet(string login, ref string[][] arrBase, ref string[] history, ref int countAcc)
         {
             while (true)
             {
@@ -103,7 +104,8 @@ namespace Module_1
                 Console.WriteLine("4 - Delete user.");
                 Console.WriteLine("5 - Creat new account.");
                 Console.WriteLine("6 - Delete account.");
-                Console.WriteLine("7 - Quit to main menu.");
+                Console.WriteLine("7 - History of user.");
+                Console.WriteLine("8 - Quit to main menu.");
                 Console.WriteLine();
                 Console.Write("Enter:");
                 string NumMenu = Console.ReadLine();
@@ -120,12 +122,12 @@ namespace Module_1
                 // Add new user
                 else if (NumMenu == "3")
                 {
-                    AddUser(ref arrBase, ref countAcc);
+                    AddUser(ref arrBase, ref history, ref countAcc);
                 }
                 // Delete user
                 else if (NumMenu == "4")
                 {
-                    DelUser(ref arrBase);
+                    DelUser(ref arrBase, ref history);
                 }
                 // Creat new account
                 else if (NumMenu == "5")
@@ -137,8 +139,13 @@ namespace Module_1
                 {
                     DelAcc(ref arrBase);
                 }
-                // Quit
+                //Goto history of user
                 else if (NumMenu == "7")
+                {
+                    HistoryUser(history, ref arrBase);
+                }
+                // Quit
+                else if (NumMenu == "8")
                 {
                     Console.Clear();
                     break;
@@ -152,7 +159,7 @@ namespace Module_1
 
         }
         // User menu
-        static void UserMet(string login, ref string[][] arrBase, ref int countAcc)
+        static void UserMet(string login, ref string[][] arrBase, ref string[] history, ref int countAcc)
         {
             while (true)
             {
@@ -171,17 +178,17 @@ namespace Module_1
                 // Goto put cash
                 if (PutTake == "1")
                 {
-                    PutCash(indUser, ref arrBase);
+                    PutCash(indUser, ref arrBase, ref history);
                 }
                 // Goto take off cash
                 else if (PutTake == "2")
                 {
-                    TakeOffCash(indUser, ref arrBase);
+                    TakeOffCash(indUser, ref arrBase, ref history);
                 }
                 // Goto transfer
                 else if (PutTake == "3")
                 {
-                    Transfer(indUser, ref arrBase);
+                    Transfer(indUser, ref arrBase, ref history);
                 }
                 // Quit
                 else if (PutTake == "4")
@@ -239,7 +246,7 @@ namespace Module_1
             }
         }
         // Add users
-        static void AddUser(ref string[][] arrBase, ref int countAcc)
+        static void AddUser(ref string[][] arrBase, ref string[] history, ref int countAcc)
         {
             string text1 = "--- ADD USER MENU ---", text2 = "";
             Console.Clear();
@@ -263,19 +270,25 @@ namespace Module_1
                         arrBase1[i][j] = arrBase[i][j];
                     }
                 }
-
                 arrBase1[arrBase1.Length - 1] = new string[4];
                 arrBase1[arrBase1.Length - 1][0] = "Name - " + logUser + ".";
                 arrBase1[arrBase1.Length - 1][1] = "Status - Unblocked";
                 arrBase1[arrBase1.Length - 1][2] = ". Account - " + (Convert.ToString(countAcc)) + ". Cash - ";
                 arrBase1[arrBase1.Length - 1][3] = "0";
                 arrBase = arrBase1;
+                string[] history1 = new string[history.Length + 1];
+                for (int i = 0; i < history.Length; i++)
+                {
+                    history1[i] = history[i];
+                }
+                history1[history1.Length - 1] = "Name - " + logUser + "./";
+                history = history1;
                 PrintUsers(arrBase, text2);
                 countAcc++;
             }
         }
         // Delete user
-        static void DelUser(ref string[][] arrBase)
+        static void DelUser(ref string[][] arrBase, ref string[] history)
         {
             string text1 = "--- DELETE USER MENU ---", text2 = "";
             Console.Clear();
@@ -317,6 +330,20 @@ namespace Module_1
                         }
                     }
                     arrBase = arrBase1;
+                    string[] history1 = new string[history.Length - 1];
+                    for (int i = 0, k = 0; i < history.Length; k++, i++)
+                    {
+                        if (indUser == i)
+                        {
+                            k--;
+                            continue;
+                        }
+                        else
+                        {
+                            history1[k] = history[i];
+                        }
+                    }
+                    history = history1;
                     PrintUsers(arrBase, text2 = "User " + logUser + " is deleted");
                 }
             }
@@ -353,12 +380,12 @@ namespace Module_1
         static void DelAcc(ref string[][] arrBase)
         {
             bool accTrue = false;
-            string text1 = "--- DELETE ACCOUNT MENU ---", text2 = "";
+            string text1 = "--- DELETE ACCOUNT MENU ---", text2 = "Enter name user: ";
             Console.Clear();
             int indexAcc = 0;
             Console.WriteLine(text1);
             Console.WriteLine();
-            Console.Write("Enter name user:");
+            Console.Write(text2);
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
             if (indUser < 0)
@@ -409,8 +436,30 @@ namespace Module_1
                 }
             }
         }
+        // History of user
+        static void HistoryUser(string[] history, ref string[][] arrBase)
+        {
+            Console.Clear();
+            Console.WriteLine("--- HISTORY USER MENU ---");
+            Console.WriteLine("\n");
+            Console.Write("Enter name user:");
+            string logUser = Console.ReadLine();
+            int indUser = SearchIndexLogin(arrBase, logUser);
+            if (indUser < 0)
+            {
+                IncNum();
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine(history[indUser]);
+                Console.WriteLine();
+                Console.WriteLine("Press any key to quit the admin menu");
+                Console.ReadKey();
+            }
+        }
         // Put cash to account
-        static void PutCash(int indUser, ref string[][] arrBase)
+        static void PutCash(int indUser, ref string[][] arrBase, ref string[] history)
         {
             string s = "", text1 = "--- PUT CASH MENU ---";
             bool accTrue = false;
@@ -434,6 +483,7 @@ namespace Module_1
                             cashOld += addSum;
                             string cashNew = Convert.ToString(cashOld);
                             arrBase[indUser][i + 1] = cashNew;
+                            history[indUser] += "/Data:" + DateTime.Now + ".Put cash to account(" + accNum + ") - " + s + "./";
                             accTrue = true;
                             break;
                         }
@@ -456,7 +506,7 @@ namespace Module_1
             }
         }
         // Take off cash
-        static void TakeOffCash(int indUser, ref string[][] arrBase)
+        static void TakeOffCash(int indUser, ref string[][] arrBase, ref string[] history)
         {
             string s = "", text1 = "-- - TAKE OFF CASH MENU-- - ";
             bool akkTrue = false;
@@ -466,7 +516,7 @@ namespace Module_1
                 Console.WriteLine(text1);
                 PrintUser(arrBase, indUser);
                 Console.Write("Enter number account:");
-                string akkNum = Console.ReadLine();
+                string accNum = Console.ReadLine();
                 Console.Write("Enter sum:");
                 s = Console.ReadLine();
                 bool res = Int32.TryParse(s, out int addSum);
@@ -474,13 +524,14 @@ namespace Module_1
                 {
                     for (int i = 2; i < arrBase[indUser].Length; i += 2)
                     {
-                        if (". Account - " + akkNum + ". Cash - " == arrBase[indUser][i])
+                        if (". Account - " + accNum + ". Cash - " == arrBase[indUser][i])
                         {
                             int cashOld = int.Parse(arrBase[indUser][i + 1]);
-                            if ((cashOld -= addSum) > 0)
+                            if ((cashOld -= addSum) >= 0)
                             {
                                 string cashNew = Convert.ToString(cashOld);
                                 arrBase[indUser][i + 1] = cashNew;
+                                history[indUser] += "/Data:" + DateTime.Now + ".Take off cash to account(" + accNum + ") - " + s + "./";
                                 akkTrue = true;
                                 break;
                             }
@@ -512,7 +563,7 @@ namespace Module_1
             }
         }
         // Transfer money
-        static void Transfer(int indUser, ref string[][] arrBase)
+        static void Transfer(int indUser, ref string[][] arrBase, ref string[] history)
         {
             string s = "", text = "--- TRANSFER MENU---";
             bool akkTrue = false;
@@ -547,6 +598,8 @@ namespace Module_1
                                         cashOldPut += addSum;
                                         string cashNewPut = Convert.ToString(cashOldPut);
                                         arrBase[indUser][j + 1] = cashNewPut;
+                                        history[indUser] += "/Data:" + DateTime.Now + ".Transfer money from account(" + akkTake + ") " +
+                                            "to account(" + akkPut + ") - " + s + "./";
                                         akkTrue = true;
                                         break;
                                     }
