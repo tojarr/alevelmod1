@@ -14,9 +14,13 @@ namespace Module_1
     {
         static void Main(string[] args)
         {
+            // Create array user base
             string[][] arrBase = new string[0][];
+            // Create array user history
             string[] history = new string[0];
+            // Nambers account
             int countAcc = 100;
+            // Main menu
             while (true)
             {
                 Console.Clear();
@@ -109,42 +113,42 @@ namespace Module_1
                 Console.WriteLine();
                 Console.Write("Enter:");
                 string NumMenu = Console.ReadLine();
-                // List of users
+                // Goto list of users
                 if (NumMenu == "1")
                 {
                     PrintUsers(arrBase, text);
                 }
-                // Block/Unblock user
+                // Goto block/unblock user
                 else if (NumMenu == "2")
                 {
                     BlockUnblock(ref arrBase);
                 }
-                // Add new user
+                // Goto add new user
                 else if (NumMenu == "3")
                 {
                     AddUser(ref arrBase, ref history, ref countAcc);
                 }
-                // Delete user
+                // Goto delete user
                 else if (NumMenu == "4")
                 {
                     DelUser(ref arrBase, ref history);
                 }
-                // Creat new account
+                // Goto create new account
                 else if (NumMenu == "5")
                 {
                     CreatNewAcc(ref arrBase, ref countAcc);
                 }
-                //Goto delete account
+                // Goto delete account
                 else if (NumMenu == "6")
                 {
                     DelAcc(ref arrBase);
                 }
-                //Goto history of user
+                // Goto history of user
                 else if (NumMenu == "7")
                 {
                     HistoryUser(history, ref arrBase);
                 }
-                // Quit
+                // Goto Quit to main menu
                 else if (NumMenu == "8")
                 {
                     Console.Clear();
@@ -163,6 +167,7 @@ namespace Module_1
         {
             while (true)
             {
+                // Search index user
                 int indUser = SearchIndexLogin(arrBase, login);
                 // Menu user
                 Console.Clear();
@@ -190,7 +195,7 @@ namespace Module_1
                 {
                     Transfer(indUser, ref arrBase, ref history);
                 }
-                // Quit
+                // Goto quit to main menu
                 else if (PutTake == "4")
                 {
                     Console.Clear();
@@ -281,7 +286,7 @@ namespace Module_1
                 {
                     history1[i] = history[i];
                 }
-                history1[history1.Length - 1] = "Name - " + logUser + "./";
+                history1[history1.Length - 1] = "Name - " + logUser + ".\n\n";
                 history = history1;
                 PrintUsers(arrBase, text2);
                 countAcc++;
@@ -351,7 +356,7 @@ namespace Module_1
         // Creat new account
         static void CreatNewAcc(ref string[][] arrBase, ref int countAcc)
         {
-            string text1 = "--- CREAT NEW ACCOUNT MENU ---", text2 = "Account is created.";
+            string text1 = "--- CREATe NEW ACCOUNT MENU ---", text2 = "Account is created.";
             Console.Clear();
             Console.WriteLine(text1);
             Console.WriteLine();
@@ -483,7 +488,7 @@ namespace Module_1
                             cashOld += addSum;
                             string cashNew = Convert.ToString(cashOld);
                             arrBase[indUser][i + 1] = cashNew;
-                            history[indUser] += "/Data:" + DateTime.Now + ".Put cash to account(" + accNum + ") - " + s + "./";
+                            history[indUser] += "Data:" + DateTime.Now + ".Put cash to account(" + accNum + ") - " + s + ".\n";
                             accTrue = true;
                             break;
                         }
@@ -531,7 +536,7 @@ namespace Module_1
                             {
                                 string cashNew = Convert.ToString(cashOld);
                                 arrBase[indUser][i + 1] = cashNew;
-                                history[indUser] += "/Data:" + DateTime.Now + ".Take off cash to account(" + accNum + ") - " + s + "./";
+                                history[indUser] += "Data:" + DateTime.Now + ".Take off cash to account(" + accNum + ") - " + s + ".\n";
                                 akkTrue = true;
                                 break;
                             }
@@ -598,8 +603,8 @@ namespace Module_1
                                         cashOldPut += addSum;
                                         string cashNewPut = Convert.ToString(cashOldPut);
                                         arrBase[indUser][j + 1] = cashNewPut;
-                                        history[indUser] += "/Data:" + DateTime.Now + ".Transfer money from account(" + akkTake + ") " +
-                                            "to account(" + akkPut + ") - " + s + "./";
+                                        history[indUser] += "Data:" + DateTime.Now + ".Transfer money from account(" + akkTake + ") " +
+                                            "to account(" + akkPut + ") - " + s + ".\n";
                                         akkTrue = true;
                                         break;
                                     }
