@@ -24,12 +24,10 @@ namespace Module_1
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("--- MAIN MENU ---");
-                Console.WriteLine();
-                Console.WriteLine("Enter 1 for admin menu.");
-                Console.WriteLine("Enter 2 for user menu.");
-                Console.WriteLine("Enter 3 for quit.");
-                Console.WriteLine();
+                Console.WriteLine("--- MAIN MENU ---\n\n" +
+                    "Enter 1 for admin menu.\n" +
+                    "Enter 2 for user menu.\n" +
+                    "Enter 3 for quit.");
                 Console.Write("Enter:");
                 string numlog = Console.ReadLine();
                 string login = "";
@@ -58,9 +56,7 @@ namespace Module_1
                         {
                             if (arrBase[i][1] == "Status - Blocked")
                             {
-                                Console.WriteLine();
-                                Console.WriteLine("USER BLOCKED!!!");
-                                Console.WriteLine();
+                                Console.WriteLine("\nUSER BLOCKED!!!\n");
                                 Console.Write("Press any key to quit main menu.");
                                 Console.ReadKey();
                                 logTrue = true;
@@ -100,17 +96,15 @@ namespace Module_1
                 string text = "";
                 //Menu admin
                 Console.Clear();
-                Console.WriteLine("--- ADMIN MENU ---");
-                Console.WriteLine();
-                Console.WriteLine("1 - List of users.");
-                Console.WriteLine("2 - Block/Unblock user.");
-                Console.WriteLine("3 - Add new user.");
-                Console.WriteLine("4 - Delete user.");
-                Console.WriteLine("5 - Creat new account.");
-                Console.WriteLine("6 - Delete account.");
-                Console.WriteLine("7 - History of user.");
-                Console.WriteLine("8 - Quit to main menu.");
-                Console.WriteLine();
+                Console.WriteLine("--- ADMIN MENU ---\n\n" +
+                    "1 - List of users.\n" +
+                    "2 - Block/Unblock user.\n" +
+                    "3 - Add new user.\n" +
+                    "4 - Delete user.\n" +
+                    "5 - Creat new account.\n" +
+                    "6 - Delete account.\n" +
+                    "7 - History of user.\n" +
+                    "8 - Quit to main menu.\n\n");
                 Console.Write("Enter:");
                 string NumMenu = Console.ReadLine();
                 // Goto list of users
@@ -171,13 +165,11 @@ namespace Module_1
                 int indUser = SearchIndexLogin(arrBase, login);
                 // Menu user
                 Console.Clear();
-                Console.WriteLine("--- USER MENU ---");
-                Console.WriteLine();
-                Console.WriteLine("1 - Put cash to account.");
-                Console.WriteLine("2 - Take off cash from the account.");
-                Console.WriteLine("3 - Transfer.");
-                Console.WriteLine("4 - Quit to main menu.");
-                Console.WriteLine();
+                Console.WriteLine("--- USER MENU ---\n\n" +
+                    "1 - Put cash to account.\n" +
+                    "2 - Take off cash from the account.\n" +
+                    "3 - Transfer.\n" +
+                    "4 - Quit to main menu.\n\n");
                 Console.Write("Enter:");
                 string PutTake = Console.ReadLine();
                 // Goto put cash
@@ -212,8 +204,7 @@ namespace Module_1
         static void BlockUnblock(ref string[][] arrBase)
         {
             Console.Clear();
-            Console.WriteLine("--- BLOCK/UNBLOCK MENU ---");
-            Console.WriteLine();
+            Console.WriteLine("--- BLOCK/UNBLOCK MENU ---\n\n");
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -227,9 +218,9 @@ namespace Module_1
                 {
                     Console.Clear();
                     PrintUser(arrBase, indUser);
-                    Console.WriteLine("1 - Blocked.");
-                    Console.WriteLine("2 - Unblocked.");
-                    Console.WriteLine("3 - Quit to admin menu.");
+                    Console.WriteLine("1 - Blocked.\n" +
+                                      "2 - Unblocked.\n" +
+                                      "3 - Quit to admin menu.");
                     string status = Console.ReadLine();
                     if (status == "1")
                     {
@@ -253,10 +244,9 @@ namespace Module_1
         // Add users
         static void AddUser(ref string[][] arrBase, ref string[] history, ref int countAcc)
         {
-            string text1 = "--- ADD USER MENU ---", text2 = "";
+            string text1 = "--- ADD USER MENU ---\n\n", text2 = "";
             Console.Clear();
             Console.WriteLine(text1);
-            Console.WriteLine();
             Console.Write("Enter name new user:");
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -295,10 +285,9 @@ namespace Module_1
         // Delete user
         static void DelUser(ref string[][] arrBase, ref string[] history)
         {
-            string text1 = "--- DELETE USER MENU ---", text2 = "";
+            string text1 = "--- DELETE USER MENU ---\n\n", text2 = "";
             Console.Clear();
             Console.WriteLine(text1);
-            Console.WriteLine();
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -356,10 +345,9 @@ namespace Module_1
         // Creat new account
         static void CreatNewAcc(ref string[][] arrBase, ref int countAcc)
         {
-            string text1 = "--- CREATe NEW ACCOUNT MENU ---", text2 = "Account is created.";
+            string text1 = "--- CREATe NEW ACCOUNT MENU ---\n\n", text2 = "Account is created.";
             Console.Clear();
             Console.WriteLine(text1);
-            Console.WriteLine();
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -385,11 +373,10 @@ namespace Module_1
         static void DelAcc(ref string[][] arrBase)
         {
             bool accTrue = false;
-            string text1 = "--- DELETE ACCOUNT MENU ---", text2 = "Enter name user: ";
+            string text1 = "--- DELETE ACCOUNT MENU ---\n\n", text2 = "Enter name user: ";
             Console.Clear();
             int indexAcc = 0;
             Console.WriteLine(text1);
-            Console.WriteLine();
             Console.Write(text2);
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -445,8 +432,7 @@ namespace Module_1
         static void HistoryUser(string[] history, ref string[][] arrBase)
         {
             Console.Clear();
-            Console.WriteLine("--- HISTORY USER MENU ---");
-            Console.WriteLine("\n");
+            Console.WriteLine("--- HISTORY USER MENU ---\n\n");
             Console.Write("Enter name user:");
             string logUser = Console.ReadLine();
             int indUser = SearchIndexLogin(arrBase, logUser);
@@ -456,17 +442,14 @@ namespace Module_1
             }
             else
             {
-                Console.WriteLine();
-                Console.WriteLine(history[indUser]);
-                Console.WriteLine();
-                Console.WriteLine("Press any key to quit the admin menu");
+                Console.WriteLine("\n" + history[indUser] + "\nPress any key to quit the admin menu");
                 Console.ReadKey();
             }
         }
         // Put cash to account
         static void PutCash(int indUser, ref string[][] arrBase, ref string[] history)
         {
-            string s = "", text1 = "--- PUT CASH MENU ---";
+            string s = "", text1 = "--- PUT CASH MENU ---\n\n";
             bool accTrue = false;
             while (true)
             {
@@ -513,7 +496,7 @@ namespace Module_1
         // Take off cash
         static void TakeOffCash(int indUser, ref string[][] arrBase, ref string[] history)
         {
-            string s = "", text1 = "-- - TAKE OFF CASH MENU-- - ";
+            string s = "", text1 = " --- TAKE OFF CASH MENU --- \n\n";
             bool akkTrue = false;
             while (true)
             {
@@ -542,8 +525,7 @@ namespace Module_1
                             }
                             else
                             {
-                                Console.WriteLine("Not enough money.");
-                                Console.WriteLine("Press any key to continue.");
+                                Console.WriteLine("Not enough money.\nPress any key to continue.");
                                 Console.ReadKey();
                                 akkTrue = true;
                                 break;
@@ -570,7 +552,7 @@ namespace Module_1
         // Transfer money
         static void Transfer(int indUser, ref string[][] arrBase, ref string[] history)
         {
-            string s = "", text = "--- TRANSFER MENU---";
+            string s = "", text = "--- TRANSFER MENU---\n\n";
             bool akkTrue = false;
             while (true)
             {
@@ -610,8 +592,7 @@ namespace Module_1
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Not enough money.");
-                                        Console.WriteLine("Press any key to continue.");
+                                        Console.WriteLine("Not enough money.\nPress any key to continue.");
                                         Console.ReadKey();
                                         akkTrue = true;
                                         break;
@@ -641,13 +622,9 @@ namespace Module_1
         static void QuitAdminMenu(int indUser, string[][] arrBase, string text1, string text2)
         {
             Console.Clear();
-            Console.WriteLine(text1);
-            Console.WriteLine();
+            Console.WriteLine(text1 + "\n");
             PrintUser(arrBase, indUser);
-            Console.WriteLine();
-            Console.WriteLine(text2);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to quit the admin menu.");
+            Console.WriteLine("\n" + text2 + "\nPress any key to quit the admin menu.");
             Console.ReadKey();
         }
         // Quit to user menu
@@ -663,8 +640,7 @@ namespace Module_1
         static void IncNum()
         {
             Console.Clear();
-            Console.WriteLine("Incorrect input");
-            Console.WriteLine("Press any key.");
+            Console.WriteLine("Incorrect input\nPress any key.");
             Console.ReadKey();
         }
         // Search index logUser
@@ -693,7 +669,6 @@ namespace Module_1
         // Print user
         static void PrintUser(string[][] arrBase, int indUser)
         {
-            Console.WriteLine("\n");
             for (int i = 0; i < arrBase[indUser].Length; i++)
             {
                 Console.Write(arrBase[indUser][i]);
@@ -704,10 +679,7 @@ namespace Module_1
         static void PrintUsers(string[][] arrBase, string text)
         {
             Console.Clear();
-            Console.WriteLine("--- LIST OF USERS ---");
-            Console.WriteLine();
-            Console.WriteLine(text);
-            Console.WriteLine();
+            Console.WriteLine("--- LIST OF USERS ---\n\n" + text + "\n");
             for (int i = 0; i < arrBase.Length; i++)
             {
                 Console.Write("{0}", (i + 1) + ".");
@@ -717,8 +689,7 @@ namespace Module_1
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine();
-            Console.WriteLine("Press any key to exit the admin menu");
+            Console.WriteLine("\nPress any key to exit the admin menu");
             Console.ReadKey();
 
         }

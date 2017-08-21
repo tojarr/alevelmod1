@@ -4,3 +4,9 @@ D:\Serg\A-Level\gitmod\gitmod\bin\Debug\gitmod.pdb
 D:\Serg\A-Level\gitmod\gitmod\obj\Debug\gitmod.csprojResolveAssemblyReference.cache
 D:\Serg\A-Level\gitmod\gitmod\obj\Debug\gitmod.exe
 D:\Serg\A-Level\gitmod\gitmod\obj\Debug\gitmod.pdb
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\bin\Debug\gitmod.exe.config
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\bin\Debug\gitmod.exe
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\bin\Debug\gitmod.pdb
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\obj\Debug\gitmod.csprojResolveAssemblyReference.cache
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\obj\Debug\gitmod.exe
+D:\Serg\A-Level\gitmodcopy1\alevelmod1\gitmod\obj\Debug\gitmod.pdb
